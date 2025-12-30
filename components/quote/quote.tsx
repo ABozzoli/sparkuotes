@@ -5,6 +5,10 @@ export interface Props {
   author: string;
 }
 
+export interface QuoteWithId extends Props {
+  id: string;
+}
+
 /* Ref: https://adrianroselli.com/2023/07/blockquotes-in-screen-readers.html#Example07 */
 export default function Quote({ quote, author = "Anonymous" }: Props) {
   return (

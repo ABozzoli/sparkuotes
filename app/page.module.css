@@ -10,4 +10,22 @@
   display: flex;
   flex-direction: column;
   row-gap: 16px;
+  margin-bottom: 48px;
+}
+
+.quote-list {
+  h2 {
+    margin-bottom: 16px;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+
+    li:nth-child(odd) {
+      background-color: color-mix(in srgb, var(--foreground) 5%, var(--background));
+      padding: 16px;
+    }
+  }
 }
