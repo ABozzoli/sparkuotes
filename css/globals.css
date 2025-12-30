@@ -142,6 +142,8 @@ ol[role="list"] {
   width: 1px;
 }
 
-:focus-visible {
+/* Attribute selector needed to override normalize.css */
+:focus-visible,
+[type="search"]:focus-visible {
   outline-offset: 4px;
 }
