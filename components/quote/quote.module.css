@@ -1,0 +1,15 @@
+.quote {
+  p {
+    font-size: var(--fs-18px);
+    hanging-punctuation: first last;
+    margin-bottom: 0.25em;
+
+    &::before {
+      content: open-quote;
+    }
+
+    &::after {
+      content: close-quote;
+    }
+  }
+}

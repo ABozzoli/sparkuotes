@@ -40,6 +40,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+p {
+  line-height: 1.3;
+}
+
+
 img,
 picture,
 video,
