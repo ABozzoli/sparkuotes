@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="180 50 546.05 80">
+  <!-- SP -->
+  <text x="180" y="115" font-family="Montserrat, Poppins, Arial, sans-serif" font-size="72" font-weight="400" letter-spacing="4" fill="black"> SP </text>
+  <!-- Custom A (closed cap, no crossbar, cap-height aligned) -->
+  <g transform="translate(290,63)">
+    <line x1="2" y1="52" x2="22" y2="0" stroke="black" stroke-width="6" stroke-linecap="round"></line>
+    <line x1="42" y1="52" x2="22" y2="0" stroke="black" stroke-width="6" stroke-linecap="round"></line>
+  </g>
+  <!-- RKUOTES -->
+  <text x="350" y="115" font-family="Montserrat, Poppins, Arial, sans-serif" font-size="72" font-weight="400" letter-spacing="4" fill="black"> RKUOTES </text>
+</svg>
