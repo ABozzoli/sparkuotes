@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   column-gap: 1ch;
-  padding-inline: 0.75em;
+  padding-inline: 11px;
   height: var(--button-min-size);
   line-height: var(--button-min-size);
   min-width: var(--button-min-size);

@@ -34,12 +34,12 @@
 }
 
 .quote-wrapper {
-  display: flex;
-  justify-content: space-between;
-  column-gap: 16px;
+  position: relative;
+  padding-right: 40px; /* Copy-button width */
 
   button {
-    margin-top: -16px;
-    margin-right: -16px;
+    position: absolute;
+    top: -16px;
+    right: -16px;
   }
 }
