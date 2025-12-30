@@ -4,7 +4,7 @@ import styles from "./page.module.css";
 import Image from "next/image";
 import Quote, { Props as QuoteI, QuoteWithId } from "@/components/quote/quote";
 import { MouseEvent, useEffect, useState } from "react";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "firebase/firestore";
 import { db } from "./firebase";
 import Input from "@/components/input/input";
 import Button from "@/components/button/button";
@@ -14,7 +14,8 @@ export default function Home() {
   const [newItem, setNewItem] = useState<QuoteI>({ quote: "", author: "" });
 
   const getItems = async () => {
-    const data = await getDocs(collection(db, "quotes"));
+    const q = query(collection(db, "quotes"), orderBy("createdAt", "desc"));
+    const data = await getDocs(q);
     setItems(data.docs.map((item) => ({ ...item.data(), id: item.id })) as QuoteWithId[]);
   };
 
@@ -25,6 +26,7 @@ export default function Home() {
     await addDoc(collection(db, "quotes"), {
       quote: newItem.quote.trim(),
       author: newItem?.author?.trim(),
+      createdAt: serverTimestamp(),
     });
 
     setNewItem({ quote: "", author: "" }); // Clear input fields
