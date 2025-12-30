@@ -10,11 +10,11 @@ export default function Input({ children, required, label, ...props }: Props) {
   const id = useId();
 
   return (
-    <>
+    <div className={styles["input-wrapper"]}>
       <Label required={required} htmlFor={id}>
         {label}
       </Label>
       <input id={id} className={styles.input} required={required} {...props} />
-    </>
+    </div>
   );
 }

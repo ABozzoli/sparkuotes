@@ -78,6 +78,10 @@ select {
   word-spacing: inherit;
 }
 
+textarea {
+  resize: vertical;
+}
+
 a:where([href]),
 button,
 .button,
@@ -133,5 +137,5 @@ ol[role="list"] {
 }
 
 :focus-visible {
-  outline-offset: 3px;
+  outline-offset: 4px;
 }

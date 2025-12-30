@@ -10,11 +10,11 @@ export default function Textarea({ children, required, label, ...props }: Props)
   const id = useId();
 
   return (
-    <>
+    <div className={styles["textarea-wrapper"]}>
       <Label required={required} htmlFor={id}>
         {label}
       </Label>
       <textarea id={id} className={styles.textarea} required={required} {...props} />
-    </>
+    </div>
   );
 }
