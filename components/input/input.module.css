@@ -1,10 +1,16 @@
 .input-wrapper {
+  --border-size: 1px;
+
   display: flex;
   flex-direction: column;
+
+  label {
+    margin-bottom: calc(var(--border-size) * -1);
+  }
 }
 
 .input {
-  border: 1px solid var(--foreground);
+  border: var(--border-size) solid var(--foreground);
   line-height: 1.5;
   padding: 0.5rem;
 }

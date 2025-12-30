@@ -12,12 +12,7 @@ export default function Label({ children, required, ...props }: Props) {
   return (
     <label className={styles.label} {...props}>
       {children}
-      {required && (
-        <>
-          <span className="visually-hidden">(required)</span>
-          <span className={styles.asterisk} aria-hidden="true">*</span>
-        </>
-      )}
+      {required && <span aria-hidden="true">*</span>}
     </label>
   );
 }
