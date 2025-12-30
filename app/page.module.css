@@ -18,15 +18,28 @@
     margin-bottom: 16px;
   }
 
-  search,
-  ul {
+  search {
     display: flex;
     flex-direction: column;
     row-gap: 16px;
   }
 
-  li:nth-child(odd) {
-    background-color: color-mix(in srgb, var(--foreground) 5%, var(--background));
+  li {
     padding: 16px;
+
+    &:nth-child(odd) {
+      background-color: color-mix(in srgb, var(--foreground) 5%, var(--background));
+    }
+  }
+}
+
+.quote-wrapper {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 16px;
+
+  button {
+    margin-top: -16px;
+    margin-right: -16px;
   }
 }

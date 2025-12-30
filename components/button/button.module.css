@@ -18,10 +18,14 @@
   white-space: nowrap;
 
   &:hover {
-    opacity: 0.8;
+    opacity: 0.9;
   }
 
   &:active {
-    scale: 0.99;
+    opacity: 0.8;
+  }
+
+  &.icon-only {
+    padding-inline: 0;
   }
 }

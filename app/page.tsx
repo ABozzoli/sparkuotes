@@ -36,6 +36,16 @@ export default function Home() {
     await getItems(); // Refetch items
   };
 
+  const copyToClipboard = async (quote: string, author?: string) => {
+    const formattedQuote = author ? `${quote}\n(${author})` : quote;
+
+    try {
+      await navigator.clipboard.writeText(formattedQuote);
+    } catch (err) {
+      console.error("Failed to copy quote:", err);
+    }
+  };
+
   const filteredItems = items.filter((item) => {
     if (!searchText.trim()) return true;
 
@@ -85,6 +95,11 @@ export default function Home() {
               <li key={id}>
                 <div className={styles["quote-wrapper"]}>
                   <Quote quote={quote} author={author} />
+                  <Button
+                    onClick={() => copyToClipboard(quote, author)}
+                    iconBefore="clipboard"
+                    aria-label="Copy quote to clipboard"
+                  />
                 </div>
               </li>
             ))}
