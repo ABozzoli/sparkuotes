@@ -9,6 +9,7 @@ import { db } from "./firebase";
 import Input from "@/components/input/input";
 import Button from "@/components/button/button";
 import SearchInput from "@/components/search-input/search-input";
+import SearchCount from "@/components/search-count/search-count";
 
 export default function Home() {
   const [items, setItems] = useState<QuoteWithId[]>([]);
@@ -78,13 +79,7 @@ export default function Home() {
         <h2 id="quote-list-title">Your quotes</h2>
         <search>
           <SearchInput label="Filter" placeholder="Enter keywords" onSearch={setSearchText} />
-
-          <output data-visually-hidden={searchText === ""}>
-            {filteredItems.length === 0
-              ? "No results"
-              : `${filteredItems.length} result${filteredItems.length > 1 ? "s" : ""}`}
-          </output>
-
+          <SearchCount count={filteredItems.length} searchText={searchText} />
           <ul role="list">
             {filteredItems.map(({ id, quote, author }) => (
               <li key={id}>
