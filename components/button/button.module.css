@@ -1,2 +1,27 @@
 .button {
+  --button-min-size: var(--fs-40px);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 1ch;
+  padding-inline: 1rem;
+  height: var(--button-min-size);
+  line-height: var(--button-min-size);
+  min-width: var(--button-min-size);
+  background-color: var(--foreground);
+  color: var(--background);
+  border: 1px solid var(--foreground);
+  font-weight: 500;
+  letter-spacing: 0.0625em;
+  /* text-transform: uppercase; */
+  white-space: nowrap;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:active {
+    scale: 0.99;
+  }
 }
