@@ -5,3 +5,9 @@
   margin-top: 16px;
   margin-bottom: 48px;
 }
+
+.add-quote {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}

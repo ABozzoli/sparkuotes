@@ -1,6 +1,7 @@
 import styles from "./page.module.css";
 import Image from "next/image";
-import AddQuote from "@/components/add-quotes/add-quote.tsx";
+import Input from "@/components/input/input";
+import Button from "@/components/button/button";
 
 export default function Home() {
   return (
@@ -11,7 +12,13 @@ export default function Home() {
         <Image src="/sparkuotes-logo.svg" width={546.05} height={80} alt="Sparkuotes logo" />
       </div>
 
-      <AddQuote />
+      <form className={styles["add-quote"]} aria-label="Add a new quote">
+        <Input label="Author" />
+        <Input label="Quote" multiline required />
+        <Button type="submit" iconBefore="plus" iconSize="1.5rem">
+          Add quote
+        </Button>
+      </form>
     </div>
   );
 }
