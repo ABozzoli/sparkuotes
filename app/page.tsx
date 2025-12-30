@@ -12,6 +12,7 @@ import Button from "@/components/button/button";
 export default function Home() {
   const [items, setItems] = useState<QuoteWithId[]>([]);
   const [newItem, setNewItem] = useState<QuoteI>({ quote: "", author: "" });
+  const [searchText, setSearchText] = useState("");
 
   const getItems = async () => {
     const q = query(collection(db, "quotes"), orderBy("createdAt", "desc"));
@@ -32,6 +33,15 @@ export default function Home() {
     setNewItem({ quote: "", author: "" }); // Clear input fields
     await getItems(); // Refetch items
   };
+
+  const filteredItems = items.filter((item) => {
+    if (!searchText.trim()) return true;
+
+    const keywords = searchText.toLowerCase().trim().split(/\s+/);
+    const searchableText = `${item.quote} ${item.author || ""}`.toLowerCase();
+
+    return keywords.some((keyword) => searchableText.includes(keyword));
+  });
 
   useEffect(() => {
     getItems();
@@ -65,8 +75,9 @@ export default function Home() {
 
       <section className={styles["quote-list"]} aria-labelledby="quote-list-title">
         <h2 id="quote-list-title">Your saved quotes</h2>
+        <Input label="Filter" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
         <ul role="list">
-          {items.map(({ id, quote, author }) => (
+          {filteredItems.map(({ id, quote, author }) => (
             <li key={id}>
               <div className={styles["quote-wrapper"]}>
                 <Quote quote={quote} author={author} />
