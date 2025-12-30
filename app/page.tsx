@@ -10,6 +10,7 @@ import Input from "@/components/input/input";
 import Button from "@/components/button/button";
 import SearchInput from "@/components/search-input/search-input";
 import SearchCount from "@/components/search-count/search-count";
+import CopyButton from "@/components/copy-button/copy-button";
 
 export default function Home() {
   const [items, setItems] = useState<QuoteWithId[]>([]);
@@ -34,16 +35,6 @@ export default function Home() {
 
     setNewItem({ quote: "", author: "" }); // Clear input fields
     await getItems(); // Refetch items
-  };
-
-  const copyToClipboard = async (quote: string, author?: string) => {
-    const formattedQuote = author ? `${quote}\n(${author})` : quote;
-
-    try {
-      await navigator.clipboard.writeText(formattedQuote);
-    } catch (err) {
-      console.error("Failed to copy quote:", err);
-    }
   };
 
   const filteredItems = items.filter((item) => {
@@ -95,11 +86,7 @@ export default function Home() {
               <li key={id}>
                 <div className={styles["quote-wrapper"]}>
                   <Quote quote={quote} author={author} />
-                  <Button
-                    onClick={() => copyToClipboard(quote, author)}
-                    iconBefore="clipboard"
-                    aria-label="Copy quote to clipboard"
-                  />
+                  <CopyButton quote={quote} author={author} />
                 </div>
               </li>
             ))}
