@@ -21,7 +21,7 @@ export default function Button({
   ...props
 }: Props) {
   return (
-    <button className={`${styles.button} ${!children ? styles["icon-only"] : ""}`} type={type} {...props}>
+    <button className={styles.button} type={type} {...props}>
       {iconBefore && <Icon name={iconBefore} size={iconSize} />}
       {children}
       {iconAfter && <Icon name={iconAfter} size={iconSize} />}

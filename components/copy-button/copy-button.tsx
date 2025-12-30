@@ -1,4 +1,7 @@
+"use client";
+
 import Button from "@/components/button/button";
+import { useState } from "react";
 
 interface CopyButtonProps {
   quote: string;
@@ -6,15 +9,25 @@ interface CopyButtonProps {
 }
 
 export default function CopyButton({ quote, author }: CopyButtonProps) {
+  const [copied, setCopied] = useState(false);
+
   const copyToClipboard = async () => {
     const formattedQuote = author ? `${quote}\n(${author})` : quote;
 
     try {
       await navigator.clipboard.writeText(formattedQuote);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error("Failed to copy quote:", err);
+      console.error("Failed to copy to clipboard:", err);
     }
   };
 
-  return <Button onClick={copyToClipboard} iconBefore="clipboard" aria-label="Copy quote to clipboard" />;
+  return (
+    <Button onClick={copyToClipboard} iconAfter="clipboard" aria-label="Copy to clipboard">
+      <span role="status" data-visually-hidden={!copied}>
+        {copied && "Copied!"}
+      </span>
+    </Button>
+  );
 }
