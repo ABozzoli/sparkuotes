@@ -8,11 +8,12 @@ import { collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "fi
 import { db } from "./firebase";
 import Input from "@/components/input/input";
 import Button from "@/components/button/button";
+import SearchInput from "@/components/search-input/search-input";
 
 export default function Home() {
   const [items, setItems] = useState<QuoteWithId[]>([]);
   const [newItem, setNewItem] = useState<QuoteI>({ quote: "", author: "" });
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState<string>("");
 
   const getItems = async () => {
     const q = query(collection(db, "quotes"), orderBy("createdAt", "desc"));
@@ -49,7 +50,7 @@ export default function Home() {
 
   return (
     <div className="content-wrapper">
-      <h1 className="visually-hidden">Sparkuotes</h1>
+      <h1 data-visually-hidden>Sparkuotes</h1>
 
       <div className={styles["logo-wrapper"]}>
         <Image src="/sparkuotes-logo.svg" width={546.05} height={80} alt="Sparkuotes logo" />
@@ -74,17 +75,26 @@ export default function Home() {
       </form>
 
       <section className={styles["quote-list"]} aria-labelledby="quote-list-title">
-        <h2 id="quote-list-title">Your saved quotes</h2>
-        <Input label="Filter" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
-        <ul role="list">
-          {filteredItems.map(({ id, quote, author }) => (
-            <li key={id}>
-              <div className={styles["quote-wrapper"]}>
-                <Quote quote={quote} author={author} />
-              </div>
-            </li>
-          ))}
-        </ul>
+        <h2 id="quote-list-title">Your quotes</h2>
+        <search>
+          <SearchInput label="Filter" placeholder="Enter keywords" onSearch={setSearchText} />
+
+          <output data-visually-hidden={searchText === ""}>
+            {filteredItems.length === 0
+              ? "No results"
+              : `${filteredItems.length} result${filteredItems.length > 1 ? "s" : ""}`}
+          </output>
+
+          <ul role="list">
+            {filteredItems.map(({ id, quote, author }) => (
+              <li key={id}>
+                <div className={styles["quote-wrapper"]}>
+                  <Quote quote={quote} author={author} />
+                </div>
+              </li>
+            ))}
+          </ul>
+        </search>
       </section>
     </div>
   );

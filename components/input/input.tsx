@@ -23,7 +23,7 @@ export default function Input({ children, required, label, hiddenLabel, multilin
 
   return (
     <div className={styles["input-wrapper"]}>
-      <Label required={required} htmlFor={id} data-visually-hidden={hiddenLabel ? "true" : undefined}>
+      <Label required={required} htmlFor={id} data-visually-hidden={hiddenLabel}>
         {label}
       </Label>
       <Element id={id} className={styles.input} required={required} {...(props as any)} />

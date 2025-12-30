@@ -18,18 +18,15 @@
     margin-bottom: 16px;
   }
 
-  input {
-    margin-bottom: 16px;
-  }
-
+  search,
   ul {
     display: flex;
     flex-direction: column;
     row-gap: 16px;
+  }
 
-    li:nth-child(odd) {
-      background-color: color-mix(in srgb, var(--foreground) 5%, var(--background));
-      padding: 16px;
-    }
+  li:nth-child(odd) {
+    background-color: color-mix(in srgb, var(--foreground) 5%, var(--background));
+    padding: 16px;
   }
 }

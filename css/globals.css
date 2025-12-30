@@ -132,7 +132,7 @@ ol[role="list"] {
   padding: 0;
 }
 
-:is(.visually-hidden, [data-visually-hidden]):not(:focus, :active, :focus-within) {
+[data-visually-hidden]:not([data-visually-hidden="false"], :focus, :active, :focus-within) {
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
   height: 1px;
