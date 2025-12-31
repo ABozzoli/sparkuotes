@@ -55,7 +55,7 @@ export default function Home() {
       <h1 data-visually-hidden>Sparkuotes</h1>
 
       <div className={styles["logo-wrapper"]}>
-        <Image src="/sparkuotes-logo.svg" width={546.05} height={80} alt="Sparkuotes logo" />
+        <Image src="/sparkuotes-logo.svg" width={546} height={60} alt="Sparkuotes logo" />
       </div>
 
       <form className={styles["add-quote"]} aria-label="Add a new quote">
