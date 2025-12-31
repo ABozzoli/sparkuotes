@@ -9,7 +9,7 @@ import { ComponentProps, ReactNode } from "react";
  * This component intentionally omits `aria-label` which is not guaranteed to be translated.
  * Rely on `children` combined with `hiddenLabel` for visually hidden labels instead.
  */
-interface Props extends Omit<ComponentProps<"button">, "aria-label"> {
+type BaseProps = {
   children: ReactNode;
   hiddenLabel?: boolean;
   type?: "submit" | "reset" | "button";
@@ -17,11 +17,25 @@ interface Props extends Omit<ComponentProps<"button">, "aria-label"> {
   iconAfter?: string;
   iconSize?: string | number;
   variant?: "primary" | "secondary";
-}
+};
+
+type WithStatus = {
+  status: boolean;
+  statusText: string;
+};
+
+type WithoutStatus = {
+  status?: never;
+  statusText?: never;
+};
+
+type Props = Omit<ComponentProps<"button">, "aria-label"> & BaseProps & (WithStatus | WithoutStatus);
 
 export default function Button({
   children,
   hiddenLabel,
+  status,
+  statusText,
   type = "button",
   iconBefore,
   iconAfter,
@@ -33,6 +47,11 @@ export default function Button({
     <button className={`${styles.button} ${styles[variant]}`} type={type} {...props}>
       {iconBefore && <Icon name={iconBefore} size={iconSize} />}
       <span data-visually-hidden={hiddenLabel}>{children}</span>
+      {statusText && (
+        <span role="status" data-visually-hidden={!status}>
+          {status && statusText}
+        </span>
+      )}
       {iconAfter && <Icon name={iconAfter} size={iconSize} />}
     </button>
   );

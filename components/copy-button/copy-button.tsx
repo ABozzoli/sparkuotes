@@ -38,10 +38,14 @@ export default function CopyButton({ text, author }: Props) {
   };
 
   return (
-    <Button onClick={copyToClipboard} iconAfter="clipboard" aria-label="Copy to clipboard">
-      <span role="status" data-visually-hidden={!copied}>
-        {copied && "Copied!"}
-      </span>
+    <Button
+      onClick={copyToClipboard}
+      iconAfter="clipboard"
+      hiddenLabel
+      status={copied}
+      statusText="Copied!"
+    >
+      Copy to clipboard
     </Button>
   );
 }
