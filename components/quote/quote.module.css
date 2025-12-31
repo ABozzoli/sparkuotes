@@ -2,6 +2,7 @@
   p {
     font-size: var(--fs-18px);
     hanging-punctuation: first last;
+    word-break: break-word; /* Prevent overflow on long words */
     margin-bottom: 0.25em;
 
     &::before {
