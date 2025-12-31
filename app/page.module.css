@@ -9,10 +9,11 @@
   display: flex;
   flex-direction: column;
   row-gap: 16px;
-  margin-bottom: 48px;
 }
 
 .quote-list {
+  margin-top: 48px;
+
   h2 {
     margin-bottom: 16px;
   }
@@ -25,6 +26,12 @@
 
   li {
     padding: 16px;
+    outline: 1px solid var(--foreground);
+    outline-offset: -1px;
+
+    + li {
+      margin-top: -1px;
+    }
 
     &:nth-child(odd) {
       background-color: color-mix(in srgb, var(--foreground) 5%, var(--background));
