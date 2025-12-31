@@ -2,7 +2,7 @@ import styles from "./quote.module.css";
 
 export interface Props {
   quote: string;
-  author: string;
+  author?: string;
 }
 
 export interface QuoteWithId extends Props {

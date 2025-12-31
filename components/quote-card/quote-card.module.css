@@ -1,0 +1,10 @@
+.quote-card {
+  position: relative;
+  padding-right: 40px; /* Copy-button width */
+
+  button {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+  }
+}

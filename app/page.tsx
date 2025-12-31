@@ -2,7 +2,7 @@
 
 import styles from "./page.module.css";
 import Image from "next/image";
-import Quote, { Props as QuoteI, QuoteWithId } from "@/components/quote/quote";
+import { Props as QuoteI, QuoteWithId } from "@/components/quote/quote";
 import { MouseEvent, useEffect, useState } from "react";
 import { collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "firebase/firestore";
 import { db } from "./firebase";
@@ -10,7 +10,7 @@ import Input from "@/components/input/input";
 import Button from "@/components/button/button";
 import SearchInput from "@/components/search-input/search-input";
 import SearchCount from "@/components/search-count/search-count";
-import CopyButton from "@/components/copy-button/copy-button";
+import QuoteCard from "@/components/quote-card/quote-card";
 
 export default function Home() {
   const [items, setItems] = useState<QuoteWithId[]>([]);
@@ -84,10 +84,7 @@ export default function Home() {
           <ul role="list">
             {filteredItems.map(({ id, quote, author }) => (
               <li key={id}>
-                <div className={styles["quote-wrapper"]}>
-                  <Quote quote={quote} author={author} />
-                  <CopyButton quote={quote} author={author} />
-                </div>
+                <QuoteCard quote={quote} author={author} />
               </li>
             ))}
           </ul>
