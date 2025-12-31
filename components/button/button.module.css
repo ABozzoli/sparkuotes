@@ -9,19 +9,36 @@
   height: var(--button-min-size);
   line-height: var(--button-min-size);
   min-width: var(--button-min-size);
-  background-color: var(--foreground);
-  color: var(--background);
   border: 1px solid var(--foreground);
   font-weight: 500;
   letter-spacing: 0.0625em;
   /* text-transform: uppercase; */
   white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.primary {
+  background-color: var(--foreground);
+  color: var(--background);
 
   &:hover {
-    opacity: 0.9;
+    background-color: color-mix(in srgb, var(--foreground), var(--background) 15%);
   }
 
   &:active {
-    opacity: 0.8;
+    background-color: color-mix(in srgb, var(--foreground), var(--background) 30%);
+  }
+}
+
+.secondary {
+  background-color: var(--background);
+  color: var(--foreground);
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--foreground) 10%, var(--background));
+  }
+
+  &:active {
+    background-color: color-mix(in srgb, var(--foreground) 20%, var(--background));
   }
 }

@@ -10,6 +10,7 @@ interface Props extends ComponentProps<"button"> {
   iconBefore?: string;
   iconAfter?: string;
   iconSize?: string | number;
+  variant?: "primary" | "secondary";
 }
 
 export default function Button({
@@ -18,10 +19,11 @@ export default function Button({
   iconBefore,
   iconAfter,
   iconSize = "1em",
+  variant = "primary",
   ...props
 }: Props) {
   return (
-    <button className={styles.button} type={type} {...props}>
+    <button className={`${styles.button} ${styles[variant]}`} type={type} {...props}>
       {iconBefore && <Icon name={iconBefore} size={iconSize} />}
       {children}
       {iconAfter && <Icon name={iconAfter} size={iconSize} />}
