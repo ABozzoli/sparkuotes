@@ -1,0 +1,44 @@
+.summary {
+  display: flex; /* Anything but "list-item" will remove the ::marker */
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 1rem;
+  padding: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.accordion {
+  outline: 1px solid var(--foreground);
+  outline-offset: -1px;
+}
+
+.accordion + .accordion {
+  margin-top: -1px; /* To collapse the borders between two accordion-items */
+}
+
+.content {
+  padding: 1rem; /* It must be padding, margin breaks the animation */
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.summary:hover {
+  text-decoration-line: underline;
+}
+
+.accordion[open] .summary {
+  /* background-color: var(--foreground); */
+  /* color: var(--background); */
+  background-color: color-mix(in srgb, var(--foreground) 5%, var(--background));
+}
+
+.summary svg {
+  flex-shrink: 0; /* Prevent the icon from shrinking when there's a lot of text */
+  margin: -0.5rem; /* Compensate for whitespace around the icon */
+  transition: rotate 0.3s ease;
+}
+
+.accordion[open] .summary svg {
+  rotate: -180deg;
+}
