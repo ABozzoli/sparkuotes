@@ -8,7 +8,7 @@ interface Props extends ComponentProps<"svg"> {
 
 export default function Icon({ name, size = "1em", ...props }: Props) {
   return (
-    <svg className={styles.icon} {...props} width={size} height={size} aria-hidden={true} focusable={false}>
+    <svg className={styles.icon} {...props} width={size} height={size} aria-hidden="true" focusable="false">
       <use href={`/spritesheet.svg#icon-${name}`} />
     </svg>
   );

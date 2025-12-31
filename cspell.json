@@ -4,6 +4,6 @@
     "dictionaryDefinitions": [],
     "dictionaries": [],
     "words": [],
-    "ignoreWords": ["sparkuotes", "firestore"],
+    "ignoreWords": ["sparkuotes", "firestore", "spritesheet"],
     "import": []
 }
