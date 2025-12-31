@@ -1,4 +1,5 @@
 import styles from "./quote.module.css";
+import { ANONYMOUS_AUTHOR } from "@/constants";
 
 export interface Props {
   quote: string;
@@ -16,7 +17,7 @@ export default function Quote({ quote, author }: Props) {
       <p>{quote}</p>
       <footer>
         <span aria-hidden="true">&nbsp;—&nbsp;</span>
-        <cite>{author || "Anonymous"}</cite>
+        <cite>{author || ANONYMOUS_AUTHOR}</cite>
       </footer>
     </blockquote>
   );

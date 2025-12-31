@@ -2,6 +2,7 @@
 
 import Button from "@/components/button/button";
 import { useState } from "react";
+import { ANONYMOUS_AUTHOR } from "@/constants";
 
 interface CopyButtonProps {
   quote: string;
@@ -23,7 +24,7 @@ export default function CopyButton({ quote, author }: CopyButtonProps) {
   };
 
   const copyToClipboard = async () => {
-    const formattedQuote = author ? `${quote}\n(${author})` : quote;
+    const formattedQuote = `${quote}\n(${author || ANONYMOUS_AUTHOR})`;
 
     try {
       if (navigator.clipboard?.writeText) {

@@ -11,6 +11,7 @@ import Button from "@/components/button/button";
 import SearchInput from "@/components/search-input/search-input";
 import SearchCount from "@/components/search-count/search-count";
 import QuoteCard from "@/components/quote-card/quote-card";
+import { ANONYMOUS_AUTHOR } from "@/constants";
 
 export default function Home() {
   const [items, setItems] = useState<QuoteWithId[]>([]);
@@ -41,7 +42,7 @@ export default function Home() {
     if (!searchText.trim()) return true;
 
     const keywords = searchText.toLowerCase().trim().split(/\s+/);
-    const searchableText = `${item.quote} ${item.author || ""}`.toLowerCase();
+    const searchableText = `${item.quote} ${item.author || ANONYMOUS_AUTHOR}`.toLowerCase();
 
     return keywords.some((keyword) => searchableText.includes(keyword));
   });
