@@ -1,5 +1,5 @@
 export interface QuoteI {
-  quote: string;
+  text: string;
   author?: string;
 }
 

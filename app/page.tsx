@@ -15,7 +15,7 @@ import { ANONYMOUS_AUTHOR } from "@/constants";
 
 export default function Home() {
   const [items, setItems] = useState<QuoteWithId[]>([]);
-  const [newItem, setNewItem] = useState<QuoteI>({ quote: "", author: "" });
+  const [newItem, setNewItem] = useState<QuoteI>({ text: "", author: "" });
   const [searchText, setSearchText] = useState<string>("");
 
   const getItems = async () => {
@@ -26,15 +26,15 @@ export default function Home() {
 
   const addItem = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (!newItem.quote) return;
+    if (!newItem.text) return;
 
     await addDoc(collection(db, "quotes"), {
-      quote: newItem.quote.trim(),
+      quote: newItem.text.trim(),
       author: newItem?.author?.trim(),
       createdAt: serverTimestamp(),
     });
 
-    setNewItem({ quote: "", author: "" }); // Clear input fields
+    setNewItem({ text: "", author: "" }); // Clear input fields
     await getItems(); // Refetch items
   };
 
@@ -42,7 +42,7 @@ export default function Home() {
     if (!searchText.trim()) return true;
 
     const keywords = searchText.toLowerCase().trim().split(/\s+/);
-    const searchableText = `${item.quote} ${item.author || ANONYMOUS_AUTHOR}`.toLowerCase();
+    const searchableText = `${item.text} ${item.author || ANONYMOUS_AUTHOR}`.toLowerCase();
 
     return keywords.some((keyword) => searchableText.includes(keyword));
   });
@@ -67,8 +67,8 @@ export default function Home() {
         />
         <Input
           label="Quote"
-          value={newItem.quote}
-          onChange={(e) => setNewItem({ ...newItem, quote: e.target.value })}
+          value={newItem.text}
+          onChange={(e) => setNewItem({ ...newItem, text: e.target.value })}
           multiline
           required
         />
@@ -83,9 +83,9 @@ export default function Home() {
           <SearchInput label="Filter" placeholder="Enter keywords" onSearch={setSearchText} />
           <SearchCount count={filteredItems.length} searchText={searchText} />
           <ul role="list">
-            {filteredItems.map(({ id, quote, author }) => (
+            {filteredItems.map(({ id, text, author }) => (
               <li key={id}>
-                <QuoteCard quote={quote} author={author} />
+                <QuoteCard text={text} author={author} />
               </li>
             ))}
           </ul>

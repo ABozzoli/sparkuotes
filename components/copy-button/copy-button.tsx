@@ -7,7 +7,7 @@ import { QuoteI } from "@/components/quote/quote.types";
 
 interface Props extends QuoteI {}
 
-export default function CopyButton({ quote, author }: Props) {
+export default function CopyButton({ text, author }: Props) {
   const [copied, setCopied] = useState(false);
 
   const fallbackCopy = (text: string) => {
@@ -22,7 +22,7 @@ export default function CopyButton({ quote, author }: Props) {
   };
 
   const copyToClipboard = async () => {
-    const formattedQuote = `${quote}\n(${author || ANONYMOUS_AUTHOR})`;
+    const formattedQuote = `${text}\n(${author || ANONYMOUS_AUTHOR})`;
 
     try {
       if (navigator.clipboard?.writeText) {

@@ -5,10 +5,10 @@ import { QuoteI } from "./quote.types";
 interface Props extends QuoteI {}
 
 /* Ref: https://adrianroselli.com/2023/07/blockquotes-in-screen-readers.html#Example07 */
-export default function Quote({ quote, author }: Props) {
+export default function Quote({ text, author }: Props) {
   return (
     <blockquote className={styles.quote}>
-      <p>{quote}</p>
+      <p>{text}</p>
       <footer>
         <span aria-hidden="true">&nbsp;—&nbsp;</span>
         <cite>{author || ANONYMOUS_AUTHOR}</cite>
