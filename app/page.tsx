@@ -16,53 +16,53 @@ import SuggestedQuote from "@/components/suggested-quote/suggested-quote";
 import Accordion from "@/components/accordion/accordion";
 
 export default function Home() {
-  const [items, setItems] = useState<QuoteWithId[]>([]);
-  const [newItem, setNewItem] = useState<QuoteI>({ text: "", author: "" });
+  const [quotes, setQuotes] = useState<QuoteWithId[]>([]);
+  const [newQuote, setNewQuote] = useState<QuoteI>({ text: "", author: "" });
   const [searchText, setSearchText] = useState<string>("");
 
-  const getItems = async () => {
+  const getQuotes = async () => {
     const q = query(collection(db, "quotes"), orderBy("createdAt", "desc"));
     const data = await getDocs(q);
-    setItems(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as QuoteWithId[]);
+    setQuotes(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as QuoteWithId[]);
   };
 
-  const addItemToDb = async (quote: QuoteI) => {
+  const saveQuoteToDb = async (quote: QuoteI) => {
     await addDoc(collection(db, "quotes"), {
       text: quote.text.trim(),
       author: quote?.author?.trim(),
       createdAt: serverTimestamp(),
     });
-    await getItems();
+    await getQuotes();
   };
 
-  const addItem = async (e?: MouseEvent<HTMLButtonElement>) => {
+  const addQuote = async (e?: MouseEvent<HTMLButtonElement>) => {
     e?.preventDefault();
-    if (!newItem.text) return;
+    if (!newQuote.text) return;
 
-    await addItemToDb(newItem);
-    setNewItem({ text: "", author: "" });
+    await saveQuoteToDb(newQuote);
+    setNewQuote({ text: "", author: "" });
   };
 
-  const handleUseSuggestedQuote = async (quote: QuoteI) => {
-    await addItemToDb(quote);
+  const addSuggestedQuote = async (quote: QuoteI) => {
+    await saveQuoteToDb(quote);
   };
 
-  const filteredItems = items.filter((item) => {
+  const filteredQuotes = quotes.filter((quote) => {
     if (!searchText.trim()) return true;
 
     const keywords = searchText.toLowerCase().trim().split(/\s+/);
-    const searchableText = `${item.text} ${item.author || ANONYMOUS_AUTHOR}`.toLowerCase();
+    const searchableText = `${quote.text} ${quote.author || ANONYMOUS_AUTHOR}`.toLowerCase();
 
     return keywords.some((keyword) => searchableText.includes(keyword));
   });
 
-  const deleteItem = async (id: string) => {
+  const deleteQuote = async (id: string) => {
     await deleteDoc(doc(db, "quotes", id));
-    await getItems();
+    await getQuotes();
   };
 
   useEffect(() => {
-    getItems();
+    getQuotes();
   }, []);
 
   return (
@@ -74,23 +74,23 @@ export default function Home() {
       </div>
 
       <Accordion title="Suggested quote" name="add-quote" open>
-        <SuggestedQuote onAddCurrentQuote={handleUseSuggestedQuote} />
+        <SuggestedQuote onAddCurrentQuote={addSuggestedQuote} />
       </Accordion>
       <Accordion title="Add a new quote" name="add-quote">
         <form className={styles["add-quote"]}>
           <Input
             label="Author"
-            value={newItem.author}
-            onChange={(e) => setNewItem({ ...newItem, author: e.target.value })}
+            value={newQuote.author}
+            onChange={(e) => setNewQuote({ ...newQuote, author: e.target.value })}
           />
           <Input
             label="Quote"
-            value={newItem.text}
-            onChange={(e) => setNewItem({ ...newItem, text: e.target.value })}
+            value={newQuote.text}
+            onChange={(e) => setNewQuote({ ...newQuote, text: e.target.value })}
             multiline
             required
           />
-          <Button type="submit" onClick={addItem} iconBefore="plus">
+          <Button type="submit" onClick={addQuote} iconBefore="plus">
             Add quote
           </Button>
         </form>
@@ -100,11 +100,11 @@ export default function Home() {
         <h2 id="quote-list-title">Your quotes</h2>
         <search>
           <SearchInput label="Filter" placeholder="Enter keywords" onSearch={setSearchText} />
-          <SearchCount count={filteredItems.length} searchText={searchText} />
+          <SearchCount count={filteredQuotes.length} searchText={searchText} />
           <ul role="list">
-            {filteredItems.map(({ id, text, author }) => (
+            {filteredQuotes.map(({ id, text, author }) => (
               <li key={id}>
-                <QuoteCard variant="saved" text={text} author={author} onDelete={() => deleteItem(id)} />
+                <QuoteCard variant="saved" text={text} author={author} onDelete={() => deleteQuote(id)} />
               </li>
             ))}
           </ul>
