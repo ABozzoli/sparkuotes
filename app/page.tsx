@@ -2,7 +2,7 @@
 
 import styles from "./page.module.css";
 import Image from "next/image";
-import { Props as QuoteI, QuoteWithId } from "@/components/quote/quote";
+import { QuoteI, QuoteWithId } from "@/components/quote/quote.types";
 import { MouseEvent, useEffect, useState } from "react";
 import { collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "firebase/firestore";
 import { db } from "./firebase";

@@ -3,13 +3,11 @@
 import Button from "@/components/button/button";
 import { useState } from "react";
 import { ANONYMOUS_AUTHOR } from "@/constants";
+import { QuoteI } from "@/components/quote/quote.types";
 
-interface CopyButtonProps {
-  quote: string;
-  author?: string;
-}
+interface Props extends QuoteI {}
 
-export default function CopyButton({ quote, author }: CopyButtonProps) {
+export default function CopyButton({ quote, author }: Props) {
   const [copied, setCopied] = useState(false);
 
   const fallbackCopy = (text: string) => {
