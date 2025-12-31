@@ -29,7 +29,7 @@ export default function Home() {
     if (!newItem.text) return;
 
     await addDoc(collection(db, "quotes"), {
-      quote: newItem.text.trim(),
+      text: newItem.text.trim(),
       author: newItem?.author?.trim(),
       createdAt: serverTimestamp(),
     });
