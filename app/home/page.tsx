@@ -5,7 +5,7 @@ import Image from "next/image";
 import { QuoteI, QuoteWithId } from "@/components/quote/quote.types";
 import { MouseEvent, useEffect, useState } from "react";
 import { collection, addDoc, getDocs, query, orderBy, serverTimestamp, deleteDoc, doc } from "firebase/firestore";
-import { db } from "./firebase";
+import { db } from "../firebase";
 import Input from "@/components/input/input";
 import Button from "@/components/button/button";
 import SearchInput from "@/components/search-input/search-input";
@@ -66,13 +66,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="content-wrapper">
-      <h1 data-visually-hidden>Sparkuotes</h1>
-
-      <div className={styles["logo-wrapper"]}>
-        <Image src="/sparkuotes-logo.svg" width={546} height={60} alt="Sparkuotes logo" />
-      </div>
-
+    <>
       <Accordion title="Suggested quote" name="add-quote" open>
         <SuggestedQuote onAddCurrentQuote={addSuggestedQuote} />
       </Accordion>
@@ -110,6 +104,6 @@ export default function Home() {
           </ul>
         </search>
       </section>
-    </div>
+    </>
   );
 }

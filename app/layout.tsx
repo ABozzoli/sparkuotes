@@ -5,6 +5,8 @@ import "../css/fonts.css";
 import "../css/globals.css";
 import "../css/layout.css";
 import "../css/normalize.css";
+import styles from "./layout.module.css";
+import Image from "next/image";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +31,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <main className="container">{children}</main>
+        <main className="container">
+          <div className="content-wrapper">
+            <h1 data-visually-hidden>Sparkuotes</h1>
+
+            <div className={styles["logo-wrapper"]}>
+              <Image src="/sparkuotes-logo.svg" width={546} height={60} alt="Sparkuotes logo" />
+            </div>
+
+            {children}
+          </div>
+        </main>
       </body>
     </html>
   );
