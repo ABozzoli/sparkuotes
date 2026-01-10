@@ -1,0 +1,19 @@
+.header > div {
+  position: relative;
+  z-index: 2; /* Ensure shadow from <main> doesn't overlap on <header> */
+  display: flex;
+  justify-content: end;
+  background-color: var(--background);
+  border-inline: 1px solid var(--foreground);
+  /* box-shadow: var(--border-shadow); */
+  /* clip-path: inset(-99px -99px 0 -99px); Clip shadow on bottom only (but brakes focus style) */
+
+  button {
+    margin-top: -1px;
+    margin-right: -1px;
+  }
+
+  @media (max-width: 768px) {
+    border-inline: none;
+  }
+}

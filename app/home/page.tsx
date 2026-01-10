@@ -1,11 +1,22 @@
 "use client";
 
 import styles from "./page.module.css";
-import Image from "next/image";
 import { QuoteI, QuoteWithId } from "@/components/quote/quote.types";
 import { MouseEvent, useEffect, useState } from "react";
-import { collection, addDoc, getDocs, query, orderBy, serverTimestamp, deleteDoc, doc } from "firebase/firestore";
-import { db } from "../firebase";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  orderBy,
+  serverTimestamp,
+  deleteDoc,
+  doc,
+  where,
+} from "firebase/firestore";
+import { db, auth } from "../firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { useRouter } from "next/navigation";
 import Input from "@/components/input/input";
 import Button from "@/components/button/button";
 import SearchInput from "@/components/search-input/search-input";
@@ -19,20 +30,25 @@ export default function Home() {
   const [quotes, setQuotes] = useState<QuoteWithId[]>([]);
   const [newQuote, setNewQuote] = useState<QuoteI>({ text: "", author: "" });
   const [searchText, setSearchText] = useState<string>("");
+  const [userId, setUserId] = useState<string | null>(null);
+  const router = useRouter();
 
-  const getQuotes = async () => {
-    const q = query(collection(db, "quotes"), orderBy("createdAt", "desc"));
+  const getQuotes = async (uid: string) => {
+    const q = query(collection(db, "quotes"), where("userId", "==", uid), orderBy("createdAt", "desc"));
     const data = await getDocs(q);
     setQuotes(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as QuoteWithId[]);
   };
 
   const saveQuoteToDb = async (quote: QuoteI) => {
+    if (!userId) return;
+
     await addDoc(collection(db, "quotes"), {
       text: quote.text.trim(),
       author: quote?.author?.trim(),
+      userId: userId,
       createdAt: serverTimestamp(),
     });
-    await getQuotes();
+    await getQuotes(userId);
   };
 
   const addQuote = async (e?: MouseEvent<HTMLButtonElement>) => {
@@ -57,13 +73,23 @@ export default function Home() {
   });
 
   const deleteQuote = async (id: string) => {
+    if (!userId) return;
     await deleteDoc(doc(db, "quotes", id));
-    await getQuotes();
+    await getQuotes(userId);
   };
 
   useEffect(() => {
-    getQuotes();
-  }, []);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserId(user.uid);
+        getQuotes(user.uid);
+      } else {
+        router.push("/login");
+      }
+    });
+
+    return () => unsubscribe();
+  }, [router]);
 
   return (
     <>

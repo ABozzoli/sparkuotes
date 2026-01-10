@@ -7,6 +7,7 @@ import "../css/layout.css";
 import "../css/normalize.css";
 import styles from "./layout.module.css";
 import Image from "next/image";
+import Header from "@/components/header/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <Header />
         <main className="container">
           <div className="content-wrapper">
             <h1 data-visually-hidden>Sparkuotes</h1>

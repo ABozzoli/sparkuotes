@@ -2,14 +2,27 @@
 
 import { ComponentProps } from "react";
 import styles from "./google-sign-in-button.module.css";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "@/app/firebase";
+import { useRouter } from "next/navigation";
 
-interface Props extends ComponentProps<"button"> {
-  onClick: () => void;
-}
+interface Props extends ComponentProps<"button"> {}
 
-export default function GoogleSignInButton({ onClick, ...props }: Props) {
+export default function GoogleSignInButton({ ...props }: Props) {
+  const router = useRouter();
+
+  const handleGoogleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      router.push("/home");
+    } catch (error) {
+      console.error("Authentication error:", error);
+    }
+  };
+
   return (
-    <button className={styles.googleButton} onClick={onClick} type="button" {...props}>
+    <button className={styles.googleButton} onClick={handleGoogleSignIn} type="button" {...props}>
       <svg
         className={styles.googleIcon}
         viewBox="0 0 24 24"
