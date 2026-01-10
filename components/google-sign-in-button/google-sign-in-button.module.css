@@ -17,22 +17,17 @@
   transition: all 0.2s ease;
   box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3);
   min-width: 240px;
-}
 
-.googleButton:hover {
-  background-color: #f8f9fa;
-  border-color: #d2e3fc;
-  box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
-}
+  &:hover {
+    background-color: #f8f9fa;
+    border-color: #d2e3fc;
+    box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+  }
 
-.googleButton:active {
-  background-color: #f1f3f4;
-  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3);
-}
-
-.googleButton:focus-visible {
-  outline: 2px solid #4285f4;
-  outline-offset: 2px;
+  &:active {
+    background-color: #f1f3f4;
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3);
+  }
 }
 
 .googleIcon {
