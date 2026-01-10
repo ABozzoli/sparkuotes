@@ -1,17 +1,19 @@
 .quote-card {
-  position: relative;
-  padding-right: 40px; /* Icon-button width */
   display: flex;
   justify-content: space-between;
   column-gap: 16px;
   min-height: calc((40px * 2) - (16px * 2)); /* calc((icon-button height * 2) - (padding * 2)) */
 }
 
-.actions {
-  position: absolute;
-  top: -16px;
-  right: -16px;
-  display: flex;
-  flex-direction: column;
-  align-items: end;
+li:has(.quote-card) {
+  outline: 1px solid var(--foreground);
+  outline-offset: -1px;
+
+  + li {
+    margin-top: -1px;
+  }
+
+  &:nth-child(odd) {
+    background-color: color-mix(in srgb, var(--foreground) 5%, var(--background));
+  }
 }

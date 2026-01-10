@@ -1,4 +1,6 @@
 .quote {
+  padding: 16px;
+
   p {
     font-size: var(--fs-18px);
     hanging-punctuation: first last;

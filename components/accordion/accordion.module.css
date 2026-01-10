@@ -17,12 +17,6 @@
   margin-top: -1px; /* To collapse the borders between two accordion-items */
 }
 
-.content {
-  padding: 1rem; /* It must be padding, margin breaks the animation */
-  font-size: 0.875rem;
-  margin: 0;
-}
-
 .summary:hover {
   text-decoration-line: underline;
 }
