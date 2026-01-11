@@ -38,13 +38,21 @@ export default function Home() {
   const [userId, setUserId] = useState<string | null>(null);
   const [quoteToDelete, setQuoteToDelete] = useState<string | null>(null);
   const [errors, setErrors] = useState<FormErrors>({});
+  const [loading, setLoading] = useState(true);
   const modalRef = useRef<ModalRef>(null);
   const router = useRouter();
 
   const getQuotes = async (uid: string) => {
-    const q = query(collection(db, "quotes"), where("userId", "==", uid), orderBy("createdAt", "desc"));
-    const data = await getDocs(q);
-    setQuotes(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as QuoteWithId[]);
+    try {
+      setLoading(true);
+      const q = query(collection(db, "quotes"), where("userId", "==", uid), orderBy("createdAt", "desc"));
+      const data = await getDocs(q);
+      setQuotes(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as QuoteWithId[]);
+    } catch (error) {
+      console.error("Error fetching quotes:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const saveQuoteToDb = async (quote: QuoteI) => {
@@ -155,11 +163,17 @@ export default function Home() {
           <SearchInput label="Filter" placeholder="Enter keywords" onSearch={setSearchText} />
           <SearchCount count={filteredQuotes.length} searchText={searchText} />
           <ul role="list">
-            {filteredQuotes.map(({ id, text, author }) => (
-              <li key={id}>
-                <QuoteCard variant="saved" text={text} author={author} onDelete={() => deleteQuote(id)} />
-              </li>
-            ))}
+            {loading
+              ? Array.from({ length: 3 }, (_, i) => (
+                  <li key={i}>
+                    <QuoteCard loading />
+                  </li>
+                ))
+              : filteredQuotes.map(({ id, text, author }) => (
+                  <li key={id}>
+                    <QuoteCard variant="saved" text={text} author={author} onDelete={() => deleteQuote(id)} />
+                  </li>
+                ))}
           </ul>
         </search>
       </section>

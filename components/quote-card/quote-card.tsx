@@ -4,23 +4,31 @@ import CopyButton from "@/components/copy-button/copy-button";
 import Button from "@/components/button/button";
 import styles from "./quote-card.module.css";
 
-type SavedVariantProps = {
-  variant: "saved";
-  onDelete?: () => void;
-  onAdd?: never;
-  onRefresh?: never;
+type LoadingProps = {
+  loading: true;
 };
 
-type SuggestedVariantProps = {
+type SavedVariantProps = QuoteI & {
+  loading?: false;
+  variant: "saved";
+  onDelete?: () => void;
+};
+
+type SuggestedVariantProps = QuoteI & {
+  loading?: false;
   variant: "suggested";
   onAdd: () => void;
   onRefresh: () => void;
-  onDelete?: never;
 };
 
-type Props = QuoteI & (SavedVariantProps | SuggestedVariantProps);
+type Props = LoadingProps | SavedVariantProps | SuggestedVariantProps;
 
-export default function QuoteCard({ text, author, variant, onDelete, onAdd, onRefresh }: Props) {
+export default function QuoteCard(props: Props) {
+  if (props.loading) {
+    return <div className={styles["skeleton-card"]} />;
+  }
+
+  const { text, author, variant } = props;
   return (
     <div className={styles["quote-card"]}>
       <Quote text={text} author={author} />
@@ -28,25 +36,19 @@ export default function QuoteCard({ text, author, variant, onDelete, onAdd, onRe
         {variant === "saved" && (
           <>
             <CopyButton text={text} author={author} />
-            {onDelete && (
-              <Button iconBefore="trash-03" variant="secondary" onClick={onDelete} hiddenLabel>
-                Delete this quote
-              </Button>
-            )}
+            <Button iconBefore="trash-03" variant="secondary" onClick={props.onDelete} hiddenLabel>
+              Delete this quote
+            </Button>
           </>
         )}
         {variant === "suggested" && (
           <>
-            {onAdd && (
-              <Button iconBefore="plus" onClick={onAdd} hiddenLabel>
-                Add this quote
-              </Button>
-            )}
-            {onRefresh && (
-              <Button iconBefore="refresh-cw-02" variant="secondary" onClick={onRefresh} hiddenLabel>
-                New suggestion
-              </Button>
-            )}
+            <Button iconBefore="plus" onClick={props.onAdd} hiddenLabel>
+              Add this quote
+            </Button>
+            <Button iconBefore="refresh-cw-02" variant="secondary" onClick={props.onRefresh} hiddenLabel>
+              New suggestion
+            </Button>
           </>
         )}
       </div>
