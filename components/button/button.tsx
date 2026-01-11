@@ -42,7 +42,7 @@ export default function Button({
   ...props
 }: Props) {
   return (
-    <button className={`${styles.button} ${styles[variant]}`} type="button" {...props}>
+    <button className={`${styles.button} ${styles[variant]}`} type="button" title={children?.toString()} {...props}>
       {iconBefore && <Icon name={iconBefore} size={iconSize} />}
       <span data-visually-hidden={hiddenLabel}>{children}</span>
       {statusText && (
