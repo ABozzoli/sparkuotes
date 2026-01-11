@@ -2,19 +2,17 @@ import styles from "./input.module.css";
 import { ComponentProps, useId } from "react";
 import Label from "../label/label";
 
-type InputProps = ComponentProps<"input"> & {
+type CommonProps = {
   label: string;
   hiddenLabel?: boolean;
-  multiline?: false;
   error?: string;
 };
 
-type TextareaProps = ComponentProps<"textarea"> & {
-  label: string;
-  hiddenLabel?: boolean;
-  multiline: true;
-  error?: string;
-};
+/* prettier-ignore */
+type InputProps = ComponentProps<"input"> & CommonProps & { multiline?: false };
+
+/* prettier-ignore */
+type TextareaProps = ComponentProps<"textarea"> & CommonProps & { multiline: true };
 
 type Props = InputProps | TextareaProps;
 
