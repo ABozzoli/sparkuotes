@@ -22,16 +22,22 @@ import Button from "@/components/button/button";
 import SearchInput from "@/components/search-input/search-input";
 import SearchCount from "@/components/search-count/search-count";
 import QuoteCard from "@/components/quote-card/quote-card";
-import { ANONYMOUS_AUTHOR } from "@/constants";
+import { ANONYMOUS_AUTHOR, MIN_QUOTE_LENGTH } from "@/constants";
 import SuggestedQuote from "@/components/suggested-quote/suggested-quote";
 import Accordion from "@/components/accordion/accordion";
 import Modal, { ModalRef } from "@/components/modal/modal";
+
+interface FormErrors {
+  text?: string;
+  author?: string;
+}
 
 export default function Home() {
   const [quotes, setQuotes] = useState<QuoteWithId[]>([]);
   const [searchText, setSearchText] = useState<string>("");
   const [userId, setUserId] = useState<string | null>(null);
   const [quoteToDelete, setQuoteToDelete] = useState<string | null>(null);
+  const [errors, setErrors] = useState<FormErrors>({});
   const modalRef = useRef<ModalRef>(null);
   const router = useRouter();
 
@@ -53,8 +59,19 @@ export default function Home() {
     await getQuotes(userId);
   };
 
+  const validateQuote = (quote: QuoteI): FormErrors => {
+    const errors: FormErrors = {};
+    if (!quote.text) {
+      errors.text = "Quote text is required";
+    } else if (quote.text.length < MIN_QUOTE_LENGTH) {
+      errors.text = `Quote must be at least ${MIN_QUOTE_LENGTH} characters`;
+    }
+    return errors;
+  };
+
   const addQuote = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const form = e.currentTarget;
     const formData = new FormData(form);
 
@@ -63,8 +80,16 @@ export default function Home() {
       author: formData.get("author")?.toString().trim() || "",
     };
 
+    // Validate
+    const newErrors = validateQuote(quote);
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     await saveQuoteToDb(quote);
     form.reset();
+    setErrors({});
   };
 
   const addSuggestedQuote = async (quote: QuoteI) => {
@@ -116,8 +141,8 @@ export default function Home() {
       </Accordion>
       <Accordion title="Add a new quote" name="add-quote">
         <form className={styles["add-quote"]} onSubmit={addQuote}>
-          <Input label="Author" name="author" />
-          <Input label="Quote" name="text" multiline required />
+          <Input label="Author" name="author" error={errors.author} />
+          <Input label="Quote" name="text" error={errors.text} required multiline />
           <Button type="submit" iconBefore="plus">
             Add quote
           </Button>
