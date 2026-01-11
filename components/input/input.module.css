@@ -21,4 +21,14 @@
     background-size: 1.5rem;
     padding-left: 2.5rem;
   }
+
+  &[aria-invalid="true"] {
+    border-color: var(--clr-red-500);
+  }
+}
+
+.error {
+  color: var(--clr-red-500);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
 }
