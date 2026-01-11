@@ -2,7 +2,7 @@
 
 import styles from "./page.module.css";
 import { QuoteI, QuoteWithId } from "@/components/quote/quote.types";
-import { MouseEvent, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, FormEvent } from "react";
 import {
   collection,
   addDoc,
@@ -29,7 +29,6 @@ import Modal, { ModalRef } from "@/components/modal/modal";
 
 export default function Home() {
   const [quotes, setQuotes] = useState<QuoteWithId[]>([]);
-  const [newQuote, setNewQuote] = useState<QuoteI>({ text: "", author: "" });
   const [searchText, setSearchText] = useState<string>("");
   const [userId, setUserId] = useState<string | null>(null);
   const [quoteToDelete, setQuoteToDelete] = useState<string | null>(null);
@@ -54,12 +53,18 @@ export default function Home() {
     await getQuotes(userId);
   };
 
-  const addQuote = async (e?: MouseEvent<HTMLButtonElement>) => {
-    e?.preventDefault();
-    if (!newQuote.text) return;
+  const addQuote = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
 
-    await saveQuoteToDb(newQuote);
-    setNewQuote({ text: "", author: "" });
+    const quote = {
+      text: formData.get("text")?.toString().trim() || "",
+      author: formData.get("author")?.toString().trim() || "",
+    };
+
+    await saveQuoteToDb(quote);
+    form.reset();
   };
 
   const addSuggestedQuote = async (quote: QuoteI) => {
@@ -110,20 +115,10 @@ export default function Home() {
         <SuggestedQuote onAddCurrentQuote={addSuggestedQuote} />
       </Accordion>
       <Accordion title="Add a new quote" name="add-quote">
-        <form className={styles["add-quote"]}>
-          <Input
-            label="Author"
-            value={newQuote.author}
-            onChange={(e) => setNewQuote({ ...newQuote, author: e.target.value })}
-          />
-          <Input
-            label="Quote"
-            value={newQuote.text}
-            onChange={(e) => setNewQuote({ ...newQuote, text: e.target.value })}
-            multiline
-            required
-          />
-          <Button type="submit" onClick={addQuote} iconBefore="plus">
+        <form className={styles["add-quote"]} onSubmit={addQuote}>
+          <Input label="Author" name="author" />
+          <Input label="Quote" name="text" multiline required />
+          <Button type="submit" iconBefore="plus">
             Add quote
           </Button>
         </form>
