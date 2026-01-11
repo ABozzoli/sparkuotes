@@ -2,7 +2,7 @@
 
 import styles from "./page.module.css";
 import { QuoteI, QuoteWithId } from "@/components/quote/quote.types";
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState, useRef } from "react";
 import {
   collection,
   addDoc,
@@ -25,12 +25,15 @@ import QuoteCard from "@/components/quote-card/quote-card";
 import { ANONYMOUS_AUTHOR } from "@/constants";
 import SuggestedQuote from "@/components/suggested-quote/suggested-quote";
 import Accordion from "@/components/accordion/accordion";
+import Modal, { ModalRef } from "@/components/modal/modal";
 
 export default function Home() {
   const [quotes, setQuotes] = useState<QuoteWithId[]>([]);
   const [newQuote, setNewQuote] = useState<QuoteI>({ text: "", author: "" });
   const [searchText, setSearchText] = useState<string>("");
   const [userId, setUserId] = useState<string | null>(null);
+  const [quoteToDelete, setQuoteToDelete] = useState<string | null>(null);
+  const modalRef = useRef<ModalRef>(null);
   const router = useRouter();
 
   const getQuotes = async (uid: string) => {
@@ -72,10 +75,20 @@ export default function Home() {
     return keywords.some((keyword) => searchableText.includes(keyword));
   });
 
-  const deleteQuote = async (id: string) => {
-    if (!userId) return;
-    await deleteDoc(doc(db, "quotes", id));
+  const deleteQuote = (id: string) => {
+    setQuoteToDelete(id);
+    modalRef.current?.open();
+  };
+
+  const confirmDelete = async () => {
+    if (!userId || !quoteToDelete) return;
+    await deleteDoc(doc(db, "quotes", quoteToDelete));
     await getQuotes(userId);
+    setQuoteToDelete(null);
+  };
+
+  const cancelDelete = () => {
+    setQuoteToDelete(null);
   };
 
   useEffect(() => {
@@ -130,6 +143,10 @@ export default function Home() {
           </ul>
         </search>
       </section>
+
+      <Modal ref={modalRef} title="Delete this quote" onConfirm={confirmDelete} onCancel={cancelDelete}>
+        <p>Are you sure you want to delete this quote?</p>
+      </Modal>
     </>
   );
 }
