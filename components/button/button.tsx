@@ -12,7 +12,6 @@ import { ComponentProps, ReactNode } from "react";
 type BaseProps = {
   children: ReactNode;
   hiddenLabel?: boolean;
-  type?: "submit" | "reset" | "button";
   iconBefore?: string;
   iconAfter?: string;
   iconSize?: string | number;
@@ -36,7 +35,6 @@ export default function Button({
   hiddenLabel,
   status,
   statusText,
-  type = "button",
   iconBefore,
   iconAfter,
   iconSize = "1em",
@@ -44,7 +42,7 @@ export default function Button({
   ...props
 }: Props) {
   return (
-    <button className={`${styles.button} ${styles[variant]}`} type={type} {...props}>
+    <button className={`${styles.button} ${styles[variant]}`} type="button" {...props}>
       {iconBefore && <Icon name={iconBefore} size={iconSize} />}
       <span data-visually-hidden={hiddenLabel}>{children}</span>
       {statusText && (
