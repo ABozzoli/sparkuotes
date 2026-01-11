@@ -1,0 +1,61 @@
+.modal {
+  position: fixed;
+  margin: auto;
+  max-width: 100%;
+  border: 1px solid var(--foreground);
+  box-shadow: var(--border-shadow);
+  padding: 16px;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 16px;
+    margin-bottom: 24px;
+
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+  }
+
+  footer {
+    display: grid;
+    grid-auto-flow: column;
+    column-gap: 16px;
+    margin-top: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .modal,
+  .modal::backdrop {
+    transition: display 0.3s allow-discrete, overlay 0.3s allow-discrete, opacity 0.3s, background-color 0.3s;
+  }
+}
+
+.modal {
+  opacity: 0;
+
+  &::backdrop {
+    background-color: rgb(0 0 0 / 0);
+  }
+
+  &[open] {
+    opacity: 1;
+
+    &::backdrop {
+      background-color: rgb(0 0 0 / 0.5);
+    }
+  }
+
+  @starting-style {
+    &[open] {
+      opacity: 0;
+
+      &::backdrop {
+        background-color: rgb(0 0 0 / 0);
+      }
+    }
+  }
+}

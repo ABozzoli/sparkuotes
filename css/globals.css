@@ -171,3 +171,16 @@ details::details-content {
 details[open]::details-content {
   height: auto;
 }
+
+html:has(dialog[open]:modal) {
+  scrollbar-gutter: stable; /* It doesn't work if applied to <body> */
+}
+
+body:has(dialog[open]:modal) {
+  overflow: hidden; /* It hides sticky header if applied to <html> */
+}
+
+dialog[open]::backdrop {
+  -webkit-backdrop-filter: blur(0.25rem);
+  backdrop-filter: blur(0.25rem);
+}
