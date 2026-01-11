@@ -15,7 +15,8 @@ export interface ModalRef {
 }
 
 const Modal = forwardRef<ModalRef, Props>(function Modal({ children, title, onCancel, onConfirm, ...props }, ref) {
-  const id = useId();
+  const titleId = useId();
+  const descriptionId = useId();
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useImperativeHandle(ref, () => ({
@@ -37,21 +38,21 @@ const Modal = forwardRef<ModalRef, Props>(function Modal({ children, title, onCa
     <dialog
       ref={dialogRef}
       className={styles.modal}
-      aria-labelledby={`modal-title-${id}`}
-      aria-describedby={`modal-description-${id}`}
+      aria-labelledby={titleId}
+      aria-describedby={descriptionId}
       closedby="any"
       {...props}
     >
       <section>
         <header>
-          <h1 id={`modal-title-${id}`}>{title}</h1>
+          <h1 id={titleId}>{title}</h1>
 
           <Button variant="secondary" iconBefore="x-close" hiddenLabel onClick={() => dialogRef.current?.close()}>
             Close modal
           </Button>
         </header>
 
-        <div id={`modal-description-${id}`}>{children}</div>
+        <div id={descriptionId}>{children}</div>
 
         {(onCancel || onConfirm) && (
           <footer>
