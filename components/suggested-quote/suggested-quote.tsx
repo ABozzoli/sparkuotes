@@ -13,13 +13,18 @@ export default function SuggestedQuote({ onAddCurrentQuote }: Props) {
   const [currentQuote, setCurrentQuote] = useState<QuoteI | null>(null);
 
   useEffect(() => {
-    fetch("/api/quotes")
-      .then((res) => res.json())
-      .then((data: QuoteI[]) => {
+    const fetchQuotes = async () => {
+      try {
+        const res = await fetch("/api/quotes");
+        const data: QuoteI[] = await res.json();
         setQuotes(data);
         setCurrentQuote(data[Math.floor(Math.random() * data.length)]);
-      })
-      .catch((error) => console.error("Failed to fetch quotes:", error));
+      } catch (error) {
+        console.error("Failed to fetch quotes:", error);
+      }
+    };
+
+    fetchQuotes();
   }, []);
 
   const showRandomQuote = () => {
