@@ -11,16 +11,20 @@ interface Props {
 export default function SuggestedQuote({ onAddCurrentQuote }: Props) {
   const [quotes, setQuotes] = useState<QuoteI[]>([]);
   const [currentQuote, setCurrentQuote] = useState<QuoteI | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchQuotes = async () => {
       try {
+        setLoading(true);
         const res = await fetch("/api/quotes");
         const data: QuoteI[] = await res.json();
         setQuotes(data);
         setCurrentQuote(data[Math.floor(Math.random() * data.length)]);
       } catch (error) {
         console.error("Failed to fetch quotes:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -40,7 +44,9 @@ export default function SuggestedQuote({ onAddCurrentQuote }: Props) {
     }
   };
 
-  if (!currentQuote) return null;
+  if (loading || !currentQuote) {
+    return <QuoteCard loading />;
+  }
 
   return (
     <QuoteCard
