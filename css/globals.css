@@ -184,3 +184,31 @@ dialog[open]::backdrop {
   -webkit-backdrop-filter: blur(0.25rem);
   backdrop-filter: blur(0.25rem);
 }
+
+/* Fancy focus indicator */
+:focus-visible,
+:target:focus {
+  box-shadow: 0 0 0 3px white;
+  outline: 2px solid black;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :focus-visible,
+  :target:focus {
+    animation: outline-close-in 0.2s ease-out;
+  }
+}
+
+@keyframes outline-close-in {
+  from {
+    box-shadow: 0 0 0 3px transparent;
+    outline-color: transparent;
+    outline-offset: 6px;
+  }
+}
+
+/* Make the search cancel button black to match the black and white theme of the app */
+::-webkit-search-cancel-button {
+  filter: brightness(0);
+}
