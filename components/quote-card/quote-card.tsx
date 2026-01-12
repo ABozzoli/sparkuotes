@@ -25,7 +25,11 @@ type Props = LoadingProps | SavedVariantProps | SuggestedVariantProps;
 
 export default function QuoteCard(props: Props) {
   if (props.loading) {
-    return <div className={styles["skeleton-card"]} />;
+    return (
+      <div className={styles["skeleton-card"]}>
+        <span data-visually-hidden>Loading quote...</span>
+      </div>
+    );
   }
 
   const { text, author, variant } = props;
