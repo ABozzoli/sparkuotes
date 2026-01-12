@@ -154,12 +154,6 @@ summary {
   width: 1px;
 }
 
-/* Attribute selector needed to override normalize.css */
-:focus-visible,
-[type="search"]:focus-visible {
-  outline-offset: 4px;
-}
-
 details::details-content {
   overflow: hidden;
   height: 0;
@@ -188,6 +182,11 @@ dialog[open]::backdrop {
   backdrop-filter: blur(0.25rem);
 }
 
+/* Make the search cancel button black to match the black and white theme of the app */
+::-webkit-search-cancel-button {
+  filter: brightness(0);
+}
+
 /* Fancy focus indicator */
 :focus-visible,
 :target:focus {
@@ -211,7 +210,33 @@ dialog[open]::backdrop {
   }
 }
 
-/* Make the search cancel button black to match the black and white theme of the app */
-::-webkit-search-cancel-button {
-  filter: brightness(0);
+/* Ref: https://polypane.app/blog/css-only-floating-focus-with-anchor-positioning/ */
+/* Note: the :not(:has(dialog[open]:modal) is needed because focus-anchor doesn't work inside modals */
+@supports (position-anchor: --test) {
+  html:not(:has(dialog[open]:modal)) *:focus {
+    anchor-name: --focus-anchor;
+    outline: none;
+  }
+
+  html:not(:has(dialog[open]:modal))::before {
+    content: "";
+    display: block;
+    position: fixed;
+    position-anchor: --focus-anchor;
+    inset: anchor(inside);
+    pointer-events: none;
+    z-index: 2147483647;
+    /* Actual style of the focus indicator */
+    box-shadow: 0 0 0 3px white;
+    outline: 2px solid black;
+    outline-offset: 2px;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition: inset 0.1s linear;
+    }
+  }
+
+  html:not(:has(dialog[open]:modal)):not(:focus-within)::before {
+    opacity: 0;
+  }
 }

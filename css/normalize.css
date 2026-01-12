@@ -293,11 +293,12 @@ textarea {
 /**
  * 1. Correct the odd appearance in Chrome and Safari.
  * 2. Correct the outline style in Safari.
+ * ! Note: n.2 disabled in favor of globals.css
  */
 
 [type="search"] {
   -webkit-appearance: textfield; /* 1 */
-  outline-offset: -2px; /* 2 */
+  /* outline-offset: -2px; 2 */
 }
 
 /**
