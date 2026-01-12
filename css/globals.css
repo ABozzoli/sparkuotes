@@ -134,11 +134,14 @@ summary {
   }
 }
 
-ul[role="list"],
-ol[role="list"] {
+[role="list"] {
   list-style: none;
   margin: 0;
   padding: 0;
+
+  &:empty {
+    display: none;
+  }
 }
 
 [data-visually-hidden]:not([data-visually-hidden="false"], :focus, :active, :focus-within) {
