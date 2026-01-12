@@ -2,6 +2,7 @@
 
 import { ComponentProps, useEffect, useState } from "react";
 import Input from "@/components/input/input";
+import { useDebounce } from "@/hooks/useDebounce";
 
 interface Props extends ComponentProps<"input"> {
   label: string;
@@ -9,16 +10,13 @@ interface Props extends ComponentProps<"input"> {
   debounceMs?: number;
 }
 
-export default function SearchInput({ onSearch, debounceMs = 300, label, ...props }: Props) {
+export default function SearchInput({ onSearch, debounceMs = 500, label, ...props }: Props) {
   const [searchInput, setSearchInput] = useState("");
+  const debouncedSearchInput = useDebounce(searchInput, debounceMs);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      onSearch(searchInput);
-    }, debounceMs);
-
-    return () => clearTimeout(timer);
-  }, [searchInput, debounceMs, onSearch]);
+    onSearch(debouncedSearchInput);
+  }, [debouncedSearchInput, onSearch]);
 
   return (
     <Input
