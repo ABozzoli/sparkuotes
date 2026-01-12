@@ -23,18 +23,23 @@
   }
 
   &[aria-invalid="true"] {
-    border-color: var(--clr-red-500);
+    border-color: var(--clr-red-600);
   }
+}
+
+.hint,
+.error {
+  display: flex;
+  align-items: center;
+  column-gap: 0.5ch;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
 }
 
 .hint {
   color: var(--clr-gray-600);
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
 }
 
 .error {
-  color: var(--clr-red-500);
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
+  color: var(--clr-red-600);
 }

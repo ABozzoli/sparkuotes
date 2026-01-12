@@ -1,6 +1,7 @@
 import styles from "./input.module.css";
 import { ComponentProps, useId } from "react";
 import Label from "../label/label";
+import Icon from "../icon/icon";
 
 type CommonProps = {
   label: string;
@@ -39,12 +40,12 @@ export default function Input({ children, required, label, hiddenLabel, multilin
       />
       {hint && (
         <p id={hintId} className={styles.hint}>
-          {hint}
+          <Icon name="info-circle" /> {hint}
         </p>
       )}
       {error && (
         <p id={errorId} className={styles.error} role="alert">
-          {error}
+          <Icon name="alert-triangle" /> {error}
         </p>
       )}
     </div>
