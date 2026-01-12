@@ -27,6 +27,12 @@
   }
 }
 
+.hint {
+  color: var(--clr-gray-600);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
 .error {
   color: var(--clr-red-500);
   font-size: 0.875rem;

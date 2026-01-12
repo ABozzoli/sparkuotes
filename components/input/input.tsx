@@ -5,6 +5,7 @@ import Label from "../label/label";
 type CommonProps = {
   label: string;
   hiddenLabel?: boolean;
+  hint?: string;
   error?: string;
 };
 
@@ -16,11 +17,12 @@ type TextareaProps = ComponentProps<"textarea"> & CommonProps & { multiline: tru
 
 type Props = InputProps | TextareaProps;
 
-/* Note: 'as any' is needed for dynamic element props. Type safety is still maintained at the component's public API level through the Props type union */
-export default function Input({ children, required, label, hiddenLabel, multiline, error, ...props }: Props) {
-  const inputId = useId();
-  const errorId = useId();
+/* Note: 'props as any' is needed for dynamic element props. Type safety is still maintained at the component's public API level through the Props type union */
+export default function Input({ children, required, label, hiddenLabel, multiline, hint, error, ...props }: Props) {
   const Element = multiline ? "textarea" : "input";
+  const inputId = useId();
+  const hintId = useId();
+  const errorId = useId();
 
   return (
     <div className={styles["input-wrapper"]}>
@@ -32,9 +34,14 @@ export default function Input({ children, required, label, hiddenLabel, multilin
         className={styles.input}
         aria-required={required}
         aria-invalid={Boolean(error)}
-        aria-describedby={error ? errorId : undefined}
+        aria-describedby={`${error ? errorId : ""} ${hint ? hintId : ""}`.trim() || undefined}
         {...(props as any)}
       />
+      {hint && (
+        <p id={hintId} className={styles.hint}>
+          {hint}
+        </p>
+      )}
       {error && (
         <p id={errorId} className={styles.error} role="alert">
           {error}

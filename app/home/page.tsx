@@ -84,8 +84,8 @@ export default function Home() {
     const formData = new FormData(form);
 
     const quote = {
-      text: formData.get("text")?.toString().trim() || "",
-      author: formData.get("author")?.toString().trim() || "",
+      text: formData.get("text")?.toString().trim() ?? "",
+      author: formData.get("author")?.toString().trim() ?? "",
     };
 
     // Validate
@@ -150,7 +150,7 @@ export default function Home() {
       <Accordion title="Add a new quote" name="add-quote">
         <form className={styles["add-quote"]} onSubmit={addQuote}>
           <Input label="Author" name="author" error={errors.author} />
-          <Input label="Quote" name="text" error={errors.text} required multiline />
+          <Input label="Quote" name="text" error={errors.text} hint="Don't include quotation marks" required multiline />
           <Button type="submit" iconBefore="plus">
             Add quote
           </Button>
