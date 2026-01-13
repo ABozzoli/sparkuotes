@@ -49,7 +49,7 @@ export default function Button({
     <button
       className={`${styles.button} ${styles[variant]}`}
       type="button"
-      title={!showStatus ? children?.toString() : undefined}
+      title={hiddenLabel && !showStatus ? children?.toString() : undefined}
       onClick={handleClick}
       {...props}
     >
