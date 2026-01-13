@@ -30,6 +30,7 @@ type WithoutStatus = {
 
 type Props = Omit<ComponentProps<"button">, "aria-label"> & BaseProps & (WithStatus | WithoutStatus);
 
+/* Title attribute is omitted when status is shown to avoid screen readers announcing both the title and visible text */
 export default function Button({
   children,
   hiddenLabel,
@@ -42,7 +43,12 @@ export default function Button({
   ...props
 }: Props) {
   return (
-    <button className={`${styles.button} ${styles[variant]}`} type="button" title={children?.toString()} {...props}>
+    <button
+      className={`${styles.button} ${styles[variant]}`}
+      type="button"
+      title={!status ? children?.toString() : undefined}
+      {...props}
+    >
       {iconBefore && <Icon name={iconBefore} size={iconSize} />}
       <span data-visually-hidden={hiddenLabel}>{children}</span>
       {statusText && (
