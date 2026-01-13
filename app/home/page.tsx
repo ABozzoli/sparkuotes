@@ -3,6 +3,7 @@
 import styles from "./page.module.css";
 import { QuoteI, QuoteWithId } from "@/components/quote/quote.types";
 import { useEffect, useState, useRef, FormEvent } from "react";
+import { useDebounce } from "@/hooks/useDebounce";
 import {
   collection,
   addDoc,
@@ -19,7 +20,6 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import Input from "@/components/input/input";
 import Button from "@/components/button/button";
-import SearchInput from "@/components/search-input/search-input";
 import SearchCount from "@/components/search-count/search-count";
 import QuoteCard from "@/components/quote-card/quote-card";
 import { ANONYMOUS_AUTHOR, MIN_QUOTE_LENGTH } from "@/constants";
@@ -35,6 +35,7 @@ interface FormErrors {
 export default function Home() {
   const [quotes, setQuotes] = useState<QuoteWithId[]>([]);
   const [searchText, setSearchText] = useState<string>("");
+  const debouncedSearchText = useDebounce(searchText, 500);
   const [userId, setUserId] = useState<string | null>(null);
   const [quoteToDelete, setQuoteToDelete] = useState<string | null>(null);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -105,9 +106,9 @@ export default function Home() {
   };
 
   const filteredQuotes = quotes.filter((quote) => {
-    if (!searchText.trim()) return true;
+    if (!debouncedSearchText.trim()) return true;
 
-    const keywords = searchText.toLowerCase().trim().split(/\s+/);
+    const keywords = debouncedSearchText.toLowerCase().trim().split(/\s+/);
     const searchableText = `${quote.text} ${quote.author || ANONYMOUS_AUTHOR}`.toLowerCase();
 
     return keywords.some((keyword) => searchableText.includes(keyword));
@@ -150,7 +151,14 @@ export default function Home() {
       <Accordion title="Add a new quote" name="add-quote">
         <form className={styles["add-quote"]} onSubmit={addQuote}>
           <Input label="Author" name="author" error={errors.author} />
-          <Input label="Quote" name="text" error={errors.text} hint="Don't include quotation marks" required multiline />
+          <Input
+            label="Quote"
+            name="text"
+            error={errors.text}
+            hint="Do not include the quotation marks"
+            required
+            multiline
+          />
           <Button type="submit" iconBefore="plus">
             Add quote
           </Button>
@@ -160,8 +168,15 @@ export default function Home() {
       <section className={styles["quote-list"]} aria-labelledby="quote-list-title">
         <h2 id="quote-list-title">Your quotes</h2>
         <search>
-          <SearchInput label="Filter" placeholder="Enter keywords" onSearch={setSearchText} />
-          <SearchCount count={filteredQuotes.length} searchText={searchText} />
+          <Input
+            type="search"
+            label="Filter"
+            placeholder="Enter keywords"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            hiddenLabel
+          />
+          <SearchCount count={filteredQuotes.length} searchText={debouncedSearchText} />
           <ul role="list">
             {loading
               ? Array.from({ length: 3 }, (_, i) => (
