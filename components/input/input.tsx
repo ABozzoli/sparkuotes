@@ -10,12 +10,8 @@ type CommonProps = {
   error?: string;
 };
 
-/* prettier-ignore */
 type InputProps = ComponentProps<"input"> & CommonProps & { multiline?: false };
-
-/* prettier-ignore */
 type TextareaProps = ComponentProps<"textarea"> & CommonProps & { multiline: true };
-
 type Props = InputProps | TextareaProps;
 
 /* Note: 'props as any' is needed for dynamic element props. Type safety is still maintained at the component's public API level through the Props type union */
