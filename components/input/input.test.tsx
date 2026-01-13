@@ -43,19 +43,19 @@ describe("Input", () => {
   test("displays hint text", () => {
     const hint = "This is a hint";
     render(<Input label="Test" hint={hint} />);
-    expect(screen.getByText(hint)).toBeInTheDocument();
+    expect(screen.getByText(hint, { exact: false })).toBeInTheDocument();
   });
 
   test("displays error text", () => {
     const error = "This is an error";
     render(<Input label="Test" error={error} />);
-    expect(screen.getByText(error)).toBeInTheDocument();
+    expect(screen.getByText(error, { exact: false })).toBeInTheDocument();
   });
 
   test("error has role alert for accessibility", () => {
     const error = "This is an error";
     render(<Input label="Test" error={error} />);
-    expect(screen.getByRole("alert")).toHaveTextContent(error);
+    expect(screen.getByRole("alert").textContent).toContain(error);
   });
 
   test("input has aria-invalid when error is present", () => {
@@ -81,7 +81,7 @@ describe("Input", () => {
     const hint = "This is a hint";
     render(<Input label={label} hint={hint} />);
     const input = screen.getByLabelText(label);
-    const hintElement = screen.getByText(hint);
+    const hintElement = screen.getByText(hint, { exact: false });
     expect(input).toHaveAttribute("aria-describedby", hintElement.id);
   });
 
@@ -90,7 +90,7 @@ describe("Input", () => {
     const error = "This is an error";
     render(<Input label={label} error={error} />);
     const input = screen.getByLabelText(label);
-    const errorElement = screen.getByText(error);
+    const errorElement = screen.getByText(error, { exact: false });
     expect(input).toHaveAttribute("aria-describedby", errorElement.id);
   });
 
@@ -100,8 +100,8 @@ describe("Input", () => {
     const error = "This is an error";
     render(<Input label={label} hint={hint} error={error} />);
     const input = screen.getByLabelText(label);
-    const hintElement = screen.getByText(hint);
-    const errorElement = screen.getByText(error);
+    const hintElement = screen.getByText(hint, { exact: false });
+    const errorElement = screen.getByText(error, { exact: false });
     expect(input.getAttribute("aria-describedby")).toContain(errorElement.id);
     expect(input.getAttribute("aria-describedby")).toContain(hintElement.id);
   });

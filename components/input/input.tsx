@@ -35,17 +35,21 @@ export default function Input({ children, required, label, hiddenLabel, multilin
         className={styles.input}
         aria-required={required}
         aria-invalid={Boolean(error)}
-        aria-describedby={`${error ? errorId : ""} ${hint ? hintId : ""}`.trim() || undefined}
+        aria-describedby={`${hint ? hintId : ""} ${error ? errorId : ""}`.trim() || undefined}
         {...(props as any)}
       />
       {hint && (
         <p id={hintId} className={styles.hint}>
-          <Icon name="info-circle" /> {hint}
+          <Icon name="info-circle" />
+          <span data-visually-hidden>Hint: </span>
+          {hint}.
         </p>
       )}
       {error && (
         <p id={errorId} className={styles.error} role="alert">
-          <Icon name="alert-triangle" /> {error}
+          <Icon name="alert-triangle" />
+          <span data-visually-hidden>Error: </span>
+          {error}.
         </p>
       )}
     </div>
