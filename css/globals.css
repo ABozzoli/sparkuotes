@@ -213,12 +213,12 @@ dialog[open]::backdrop {
 /* Ref: https://polypane.app/blog/css-only-floating-focus-with-anchor-positioning/ */
 /* Note: the :not(:has(dialog[open]:modal) is needed because focus-anchor doesn't work inside modals */
 @supports (position-anchor: --test) {
-  html:not(:has(dialog[open]:modal)) *:focus {
+  html:not(:has(dialog[open])) *:focus {
     anchor-name: --focus-anchor;
     outline: none;
   }
 
-  html:not(:has(dialog[open]:modal))::before {
+  html:not(:has(dialog[open]))::before {
     content: "";
     display: block;
     position: fixed;
@@ -232,7 +232,7 @@ dialog[open]::backdrop {
     outline-offset: 2px;
 
     @media (prefers-reduced-motion: no-preference) {
-      transition: inset 0.1s linear;
+      transition: inset 100ms linear;
     }
   }
 
