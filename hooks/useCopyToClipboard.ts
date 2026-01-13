@@ -1,12 +1,6 @@
-"use client";
-
-import Button from "@/components/button/button";
 import { ANONYMOUS_AUTHOR } from "@/constants";
-import { QuoteI } from "@/components/quote/quote.types";
 
-interface Props extends QuoteI {}
-
-export default function CopyButton({ text, author }: Props) {
+export function useCopyToClipboard() {
   const fallbackCopy = (text: string) => {
     const textarea = Object.assign(document.createElement("textarea"), {
       value: text,
@@ -18,7 +12,7 @@ export default function CopyButton({ text, author }: Props) {
     document.body.removeChild(textarea);
   };
 
-  const copyToClipboard = async () => {
+  const copyToClipboard = async (text: string, author?: string) => {
     const formattedQuote = `${text}\n(${author || ANONYMOUS_AUTHOR})`;
 
     try {
@@ -32,9 +26,5 @@ export default function CopyButton({ text, author }: Props) {
     }
   };
 
-  return (
-    <Button onClick={copyToClipboard} iconAfter="clipboard" hiddenLabel statusText="Copied!">
-      Copy to clipboard
-    </Button>
-  );
+  return { copyToClipboard };
 }

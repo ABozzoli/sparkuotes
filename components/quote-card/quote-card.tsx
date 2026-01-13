@@ -2,9 +2,9 @@
 
 import Quote from "@/components/quote/quote";
 import { QuoteI } from "@/components/quote/quote.types";
-import CopyButton from "@/components/copy-button/copy-button";
 import Button from "@/components/button/button";
 import styles from "./quote-card.module.css";
+import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 
 type LoadingProps = {
   loading: true;
@@ -26,6 +26,8 @@ type SuggestedVariantProps = QuoteI & {
 type Props = LoadingProps | SavedVariantProps | SuggestedVariantProps;
 
 export default function QuoteCard(props: Props) {
+  const { copyToClipboard } = useCopyToClipboard();
+
   if (props.loading) {
     return (
       <div className={styles["skeleton-card"]}>
@@ -41,7 +43,14 @@ export default function QuoteCard(props: Props) {
       <div className={styles["actions"]}>
         {variant === "saved" && (
           <>
-            <CopyButton text={text} author={author} />
+            <Button
+              onClick={() => copyToClipboard(text, author)}
+              iconAfter="clipboard"
+              hiddenLabel
+              statusText="Copied!"
+            >
+              Copy to clipboard
+            </Button>
             <Button iconBefore="trash-03" variant="secondary" onClick={props.onDelete} hiddenLabel>
               Delete this quote
             </Button>
