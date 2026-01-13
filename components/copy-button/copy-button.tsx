@@ -1,15 +1,12 @@
 "use client";
 
 import Button from "@/components/button/button";
-import { useState } from "react";
 import { ANONYMOUS_AUTHOR } from "@/constants";
 import { QuoteI } from "@/components/quote/quote.types";
 
 interface Props extends QuoteI {}
 
 export default function CopyButton({ text, author }: Props) {
-  const [copied, setCopied] = useState(false);
-
   const fallbackCopy = (text: string) => {
     const textarea = Object.assign(document.createElement("textarea"), {
       value: text,
@@ -30,21 +27,13 @@ export default function CopyButton({ text, author }: Props) {
       } else {
         fallbackCopy(formattedQuote);
       }
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy to clipboard:", err);
     }
   };
 
   return (
-    <Button
-      onClick={copyToClipboard}
-      iconAfter="clipboard"
-      hiddenLabel
-      status={copied}
-      statusText="Copied!"
-    >
+    <Button onClick={copyToClipboard} iconAfter="clipboard" hiddenLabel statusText="Copied!">
       Copy to clipboard
     </Button>
   );

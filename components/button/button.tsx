@@ -2,7 +2,7 @@
 
 import styles from "./button.module.css";
 import Icon from "../icon/icon";
-import { ComponentProps, ReactNode } from "react";
+import { ComponentProps, ReactNode, useState } from "react";
 
 /**
  * Button component with icon support and variants.
@@ -16,44 +16,48 @@ type BaseProps = {
   iconAfter?: string;
   iconSize?: string | number;
   variant?: "primary" | "secondary";
+  statusText?: string;
+  statusDuration?: number;
 };
 
-type WithStatus = {
-  status: boolean;
-  statusText: string;
-};
-
-type WithoutStatus = {
-  status?: never;
-  statusText?: never;
-};
-
-type Props = Omit<ComponentProps<"button">, "aria-label"> & BaseProps & (WithStatus | WithoutStatus);
+type Props = Omit<ComponentProps<"button">, "aria-label"> & BaseProps;
 
 /* Title attribute is omitted when status is shown to avoid screen readers announcing both the title and visible text */
 export default function Button({
   children,
   hiddenLabel,
-  status,
   statusText,
+  statusDuration = 2000,
   iconBefore,
   iconAfter,
   iconSize = "1em",
   variant = "primary",
+  onClick,
   ...props
 }: Props) {
+  const [showStatus, setShowStatus] = useState(false);
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    onClick?.(e);
+    if (statusText) {
+      setShowStatus(true);
+      setTimeout(() => setShowStatus(false), statusDuration);
+    }
+  };
+
   return (
     <button
       className={`${styles.button} ${styles[variant]}`}
       type="button"
-      title={!status ? children?.toString() : undefined}
+      title={!showStatus ? children?.toString() : undefined}
+      onClick={handleClick}
       {...props}
     >
       {iconBefore && <Icon name={iconBefore} size={iconSize} />}
       <span data-visually-hidden={hiddenLabel}>{children}</span>
       {statusText && (
-        <span role="status" data-visually-hidden={!status}>
-          {status && statusText}
+        <span role="status" data-visually-hidden={!showStatus}>
+          {showStatus && statusText}
         </span>
       )}
       {iconAfter && <Icon name={iconAfter} size={iconSize} />}
