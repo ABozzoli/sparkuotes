@@ -236,7 +236,7 @@ dialog[open]::backdrop {
     }
   }
 
-  html:not(:has(dialog[open]:modal)):not(:focus-within)::before {
+  html:not(:has(dialog[open])):not(:focus-within)::before {
     opacity: 0;
   }
 }
